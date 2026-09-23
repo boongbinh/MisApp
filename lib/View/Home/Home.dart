@@ -177,12 +177,12 @@ class _ModuleCard extends StatelessWidget {
 
     return InkWell(
       onTap: enabled ? onTap : null,
-      borderRadius: BorderRadius.circular(16),
+      borderRadius: BorderRadius.circular(1),
       child: Column(
         children: [
           Container(
-            height: 72,
-            width: 72,
+            height: 70,
+            width: 70,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16),
               gradient:

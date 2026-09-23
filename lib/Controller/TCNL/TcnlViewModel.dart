@@ -33,7 +33,7 @@ void openModule(TcnlModuleItem m) {
       Get.toNamed(Routes.tcnlNsld);
     } else if (m.title == 'Tiền lương chính sách') {
       Get.toNamed(Routes.tcnlTlcs);
-    } else if (m.title == 'Công tác đảng') {
+    } else if (m.title == 'Công tác Đảng') {
       Get.toNamed(Routes.tcnlCtd);
     }
   }
@@ -57,11 +57,11 @@ void openModule(TcnlModuleItem m) {
     final lower = perm.toLowerCase();
     bool has(String key) => lower.contains(key.toLowerCase());
 
-    final isAdmin = has('administration') || has('admin');
+    final isAdmin = has('administration:general');
 
     // Kiểm tra từng quyền TCNL
     final hasPTNL = isAdmin || has("5. TCNL:Dashboard");// Phát triển nhân lực
-    final hasNSLD = isAdmin || has("5. TCNL:Dashboard2");// Năng suất lao động
+    //final hasNSLD = isAdmin || has("5. TCNL:Dashboard2");// Năng suất lao động
     final hasTLCS = isAdmin || has("5. TCNL:Dashboard3");// Tiền lương chính sách
     final hasCTD = isAdmin || has("5. TCNL:Dashboard4");// Công tác đảng
 
@@ -72,18 +72,14 @@ void openModule(TcnlModuleItem m) {
         "asset/icons/icon_tcnl_ptnl.svg",
         enabled: hasPTNL,
       ),
-      TcnlModuleItem(
-        "Năng suất lao động",
-        "asset/icons/icon_tcnl_nsld.svg",
-        enabled: hasNSLD,
-      ),
+      
       TcnlModuleItem(
         "Tiền lương chính sách",
         "asset/icons/icon_tcnl_ptnl.svg",
         enabled: hasTLCS,
       ),
       TcnlModuleItem(
-        "Công tác đảng",
+        "Công tác Đảng",
         "asset/icons/icon_tcnl_ptnl.svg",
         enabled: hasCTD,
       ),

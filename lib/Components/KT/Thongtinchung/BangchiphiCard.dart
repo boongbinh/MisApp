@@ -10,8 +10,6 @@ class BangChiphiRow {
   final double? tongCPTHLuyKe;
   final double? chiphi;
   final double? sanluong;
-  final double? dongiaTH;
-  final double? dongiaKH;
 
   BangChiphiRow({
     required this.maDV,
@@ -20,8 +18,6 @@ class BangChiphiRow {
     this.tongCPTHLuyKe,
     this.chiphi,
     this.sanluong,
-    this.dongiaTH,
-    this.dongiaKH,
   });
 
   factory BangChiphiRow.fromMap(Map<String, dynamic> map) {
@@ -42,8 +38,6 @@ class BangChiphiRow {
       tongCPTHLuyKe: _parse(map['TONG_CP_TH_Luyke']),
       chiphi: _parse(map['Chiphi']),
       sanluong: _parse(map['Sanluong']),
-      dongiaTH: _parse(map['DongiaTH']),
-      dongiaKH: _parse(map['DongiaKH']),
     );
   }
 }
@@ -59,19 +53,15 @@ class BangchiphiController extends GetxController {
   final showTongCPTHLuyKe = true.obs;
   final showChiphi = true.obs;
   final showSanluong = true.obs;
-  final showDongiaTH = true.obs;
-  final showDongiaKH = true.obs;
 
   void loadData(List<Map<String, dynamic>> data) {
     rows.assignAll(data.map((e) => BangChiphiRow.fromMap(e)).toList());
   }
 
-  String fmt(num? v, {int decimals = 0}) {
+  String fmt(num? v) {
     if (v == null) return '--';
-    if (decimals == 0) {
-      return NumberFormat('#,##0', 'vi_VN').format(v);
-    }
-    return NumberFormat('#,##0.${'0' * decimals}', 'vi_VN').format(v);
+    final n = v / 1e9;
+    return NumberFormat('#,##0.00', 'vi_VN').format(n) + ' Tỷ';
   }
 
   String fmtTrieu(num? v) {
@@ -85,10 +75,7 @@ class BangchiphiController extends GetxController {
     return NumberFormat('#,##0.00', 'vi_VN').format(v) + '%';
   }
 
-  String fmtDongia(num? v) {
-    if (v == null) return '--';
-    return NumberFormat('#,##0.00', 'vi_VN').format(v);
-  }
+  
 
   void openColumnSettings() {
     final ctx = Get.context;
@@ -215,8 +202,6 @@ class _TableHeader extends StatelessWidget {
       if (c.showTongCPTHLuyKe.value) const _ColDef('tongCPTHLuyKe', 'Lũy kế từ đầu năm', 1),
       if (c.showChiphi.value) const _ColDef('chiphi', 'Chi phí (%)', 1),
       if (c.showSanluong.value) const _ColDef('sanluong', 'Sản lượng (%)', 1),
-      if (c.showDongiaTH.value) const _ColDef('dongiaTH', 'Đơn giá TH', 1),
-      if (c.showDongiaKH.value) const _ColDef('dongiaKH', 'Đơn giá KH', 1),
     ];
   }
 }
@@ -265,8 +250,6 @@ class _TableBody extends StatelessWidget {
       if (c.showTongCPTHLuyKe.value) const _ColDef('tongCPTHLuyKe', 'Lũy kế từ đầu năm', 1),
       if (c.showChiphi.value) const _ColDef('chiphi', 'Chi phí (%)', 1),
       if (c.showSanluong.value) const _ColDef('sanluong', 'Sản lượng (%)', 1),
-      if (c.showDongiaTH.value) const _ColDef('dongiaTH', 'Đơn giá TH', 1),
-      if (c.showDongiaKH.value) const _ColDef('dongiaKH', 'Đơn giá KH', 1),
     ];
   }
 }
@@ -327,8 +310,6 @@ class _RowWidget extends StatelessWidget {
       'tongCPTHLuyKe' => controller.fmt(row.tongCPTHLuyKe),
       'chiphi' => controller.fmtPercent(row.chiphi),
       'sanluong' => controller.fmtPercent(row.sanluong),
-      'dongiaTH' => controller.fmtDongia(row.dongiaTH),
-      'dongiaKH' => controller.fmtDongia(row.dongiaKH),
       _ => '',
     };
 
@@ -380,8 +361,6 @@ class _ColumnSettingsSheet extends StatelessWidget {
                 _switch('Lũy kế từ đầu năm', controller.showTongCPTHLuyKe),
                 _switch('Chi phí (%)', controller.showChiphi),
                 _switch('Sản lượng (%)', controller.showSanluong),
-                _switch('Đơn giá TH', controller.showDongiaTH),
-                _switch('Đơn giá KH', controller.showDongiaKH),
                 const SizedBox(height: 8),
                 Row(
                   children: [
@@ -393,8 +372,6 @@ class _ColumnSettingsSheet extends StatelessWidget {
                           controller.showTongCPTHLuyKe.value = true;
                           controller.showChiphi.value = true;
                           controller.showSanluong.value = true;
-                          controller.showDongiaTH.value = true;
-                          controller.showDongiaKH.value = true;
                         },
                         style: OutlinedButton.styleFrom(
                           shape: const StadiumBorder(),

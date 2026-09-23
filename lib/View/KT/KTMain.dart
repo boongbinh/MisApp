@@ -100,7 +100,7 @@ class KTMain extends GetView<KtViewModel> {
                     final m = modules[index];
                     return _ModuleCard(
                       title: m.title,
-                      svg: m.svg,
+                      icon: m.icon,
                       enabled: m.enabled,
                       onTap: () => controller.openModule(m),
                     );
@@ -146,13 +146,13 @@ class _CircleIcon extends StatelessWidget {
 class _ModuleCard extends StatelessWidget {
   const _ModuleCard({
     required this.title,
-    required this.svg,
+    required this.icon,
     required this.enabled,
     this.onTap,
   });
 
   final String title;
-  final String svg;
+  final IconData icon;
   final bool enabled;
   final VoidCallback? onTap;
 
@@ -195,10 +195,10 @@ class _ModuleCard extends StatelessWidget {
             child: Center(
               child: Opacity(
                 opacity: enabled ? 1 : 0.4,
-                child: SvgPicture.asset(
-                  svg,
-                  width: 80,
-                  height: 80,
+                child: Icon(
+                  icon,
+                  size: 40,
+                  color: enabled ? const Color.fromARGB(255, 235, 236, 236) : const Color(0xFF9CA3AF),
                 ),
               ),
             ),

@@ -29,8 +29,8 @@ class JETDetailViewModel extends GetxController {
 
   // legend visibility
   final showThis = true.obs;
-  final showPrev = true.obs;
-  final showLast = true.obs;
+  final showPrev = false.obs;
+  final showLast = false.obs;
 
   // avg label (TB tháng)
   final avgMonth = ''.obs;
@@ -146,109 +146,5 @@ class JETDetailViewModel extends GetxController {
   }
 
   // ====== fake data cho demo, bạn bỏ đi khi ghép API thật ======
-  Future<Map<String, dynamic>> _fakeApi() async {
-    await Future.delayed(const Duration(milliseconds: 250));
-    return {
-      "Thangnay": [
-        83.88,
-        84.73,
-        85.6,
-        85.17,
-        null,
-        null,
-        86.12,
-        86.07,
-        88.03,
-        86.74,
-        85.71,
-        null,
-        null,
-        88.42,
-        86.03,
-        86.2,
-        86.19,
-        89.25,
-        null,
-        null,
-        87.31,
-        88.17,
-        87.36,
-        88.11,
-        87.54,
-        null,
-        null,
-        86.93,
-        88.16,
-        89.47,
-        90.01,
-      ],
-      "Thangtruoc": [
-        null,
-        78.16,
-        78.3,
-        79.17,
-        78.29,
-        78.97,
-        null,
-        null,
-        80.44,
-        80.68,
-        80.32,
-        82.39,
-        85.98,
-        null,
-        null,
-        88.31,
-        89.25,
-        91.96,
-        95.12,
-        94.91,
-        null,
-        null,
-        92.05,
-        83.9,
-        84.7,
-        84.38,
-        85.43,
-        null,
-        null,
-        84.47,
-        null,
-      ],
-      "Thangnaynamngoai": [
-        100.5,
-        102.72,
-        102.27,
-        102.09,
-        102.59,
-        null,
-        null,
-        100.52,
-        100.0,
-        98.67,
-        99.57,
-        99.74,
-        null,
-        null,
-        98.79,
-        98.0,
-        96.93,
-        98.59,
-        97.63,
-        null,
-        null,
-        95.52,
-        96.02,
-        95.44,
-        95.82,
-        96.98,
-        null,
-        null,
-        95.72,
-        93.85,
-        94.49,
-      ],
-      "PlatTBT": "87.01",
-    };
-  }
+  
 }

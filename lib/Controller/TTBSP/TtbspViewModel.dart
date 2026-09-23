@@ -29,9 +29,12 @@ void openModule(TtbspModuleItem m) {
     if (m.title == 'Doanh thu') {
       Get.toNamed(Routes.ttbspDt);
     }
-    else if (m.title == 'Thông tin chuyến bay') {
-      Get.toNamed(Routes.ttbspTtcb);
-    } 
+    else if (m.title == 'Báo cáo sản lượng theo ngày') {
+      Get.toNamed(Routes.ttbspBaocaosanluongtheongay);
+    }
+    else if (m.title == 'Báo cáo sản lượng theo tháng') {
+      Get.toNamed(Routes.ttbspBaocaosanluongtheothang);
+    }
   }
 
  Future<void> GetProfileInfo() async {
@@ -53,11 +56,12 @@ void openModule(TtbspModuleItem m) {
     final lower = perm.toLowerCase();
     bool has(String key) => lower.contains(key.toLowerCase());
 
-    final isAdmin = has('administration') || has('admin');
+    final isAdmin = has('administration:general');
 
     // Kiểm tra từng quyền ttbsp
-    final hasDt = isAdmin || has("2. TTBSP");// doanh thu
-    final hasTTCB = isAdmin || has("2. TTBSP:Thông Tin Quản Trị:THONGTINCHUYENBAY");// thông tin chuyến bay
+    final hasDt = isAdmin || has("2. TTBSP:Thông Tin Quản Trị:DOANHTHU");// doanh thu
+    final hasBaocaosanluongtheongay = isAdmin || has("Mobileapp:TTBSP:App_Baocaosanluongtheongay");// báo cáo sản lượng theo ngày
+    final hasBaocaosanluongtheothang = isAdmin || has("Mobileapp:TTBSP:App_Baocaosanluongtheothang");// báo cáo sản lượng theo tháng
 
 
 
@@ -68,11 +72,15 @@ void openModule(TtbspModuleItem m) {
         enabled: hasDt,
       ),
       TtbspModuleItem(
-        "Thông tin chuyến bay",
-        "asset/icons/icon_ttbsp_t tcb.svg",
-        enabled: hasTTCB,
+        "Báo cáo sản lượng theo ngày",
+        "asset/icons/icon_ttbsp_dt.svg",
+        enabled: hasBaocaosanluongtheongay,
       ),
-      
+      TtbspModuleItem(
+        "Báo cáo sản lượng theo tháng",
+        "asset/icons/icon_ttbsp_dt.svg",
+        enabled: hasBaocaosanluongtheothang,
+      ),
     ];
 
     modules.assignAll(list);

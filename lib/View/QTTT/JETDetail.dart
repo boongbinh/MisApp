@@ -1,9 +1,9 @@
 import 'dart:math' as math;
-import 'dart:ui';
-
+import 'dart:ui' as ui;
+import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+
 import 'package:get/state_manager.dart';
 import 'package:intl/intl.dart';
 import 'package:skypec/Controller/QTTT/JETDetailViewModel.dart';
@@ -512,15 +512,14 @@ class _JetLineChartState extends State<_JetLineChart>
             spots: seg,
             isCurved: true,
             color: s.color,
-            barWidth: lerpDouble(1, 2, t)!,
+            barWidth: ui.lerpDouble(1, 2, t)!,
             dotData: FlDotData(
               show: true,
               getDotPainter:
-                  (spot, _, __, ___) => FlDotCirclePainter(
-                    radius: lerpDouble(0, 3, t)!,
-                    color: Colors.white,
-                    strokeWidth: lerpDouble(0, 2, t)!,
-                    strokeColor: s.color,
+                  (spot, _, __, ___) => ValueDotPainter(
+                    value: spot.y,
+                    color: s.color,
+                    radius: ui.lerpDouble(0, 3, t)!,
                   ),
             ),
             belowBarData: BarAreaData(show: false),
@@ -785,4 +784,83 @@ class _TooltipBox3Series extends StatelessWidget {
       ),
     );
   }
+}
+
+class ValueDotPainter extends FlDotPainter {
+  final double value;
+  final Color color;
+  final double radius;
+
+  ValueDotPainter({
+    required this.value,
+    required this.color,
+    required this.radius,
+  });
+
+  @override
+  void draw(Canvas canvas, FlSpot spot, Offset offsetInCanvas) {
+    // Vẽ chấm
+    final dotPaint =
+        Paint()
+          ..color = Colors.white
+          ..style = PaintingStyle.fill;
+
+    final strokePaint =
+        Paint()
+          ..color = color
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 2;
+
+    canvas.drawCircle(offsetInCanvas, radius, dotPaint);
+
+    canvas.drawCircle(offsetInCanvas, radius, strokePaint);
+
+    // Hiển thị giá trị
+    final textPainter = TextPainter(
+      text: TextSpan(
+        text: value.toStringAsFixed(2),
+        style: TextStyle(
+          color: color,
+          fontSize: 9,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      textDirection: ui.TextDirection.ltr,
+    );
+
+    textPainter.layout();
+
+    // Đặt số phía trên điểm
+    textPainter.paint(
+      canvas,
+      Offset(
+        offsetInCanvas.dx - textPainter.width / 2,
+        offsetInCanvas.dy - radius - textPainter.height - 4,
+      ),
+    );
+  }
+
+  @override
+  Size getSize(FlSpot spot) {
+    return const Size(30, 30);
+  }
+
+  @override
+  FlDotPainter lerp(FlDotPainter a, FlDotPainter b, double t) {
+    if (a is ValueDotPainter && b is ValueDotPainter) {
+      return ValueDotPainter(
+        value: a.value + (b.value - a.value) * t,
+        color: Color.lerp(a.color, b.color, t)!,
+        radius: a.radius + (b.radius - a.radius) * t,
+      );
+    }
+
+    return this;
+  }
+
+  @override
+  List<Object?> get props => [value, color, radius];
+
+  @override
+  Color get mainColor => color;
 }

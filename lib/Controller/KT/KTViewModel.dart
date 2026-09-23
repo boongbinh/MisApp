@@ -3,16 +3,18 @@ import 'package:get/get.dart';
 import 'package:skypec/Global/GlobalValue.dart';
 import 'package:skypec/Route/AppRoutes.dart';
 import 'package:skypec/Service/APICaller.dart';
+import 'package:flutter/material.dart';
+
 
 class KtModuleItem {
   final String title;
-  final String svg; // đường dẫn icon SVG
+final IconData icon;
   final bool enabled;
   final List<KtModuleItem> children; // ⭐ Thêm children cho menu con
 
   const KtModuleItem(
     this.title,
-    this.svg, {
+    this.icon, {
     this.enabled = true,
     this.children = const [],
   });
@@ -65,28 +67,34 @@ class KtViewModel extends GetxController {
     final lower = perm.toLowerCase();
     bool has(String key) => lower.contains(key.toLowerCase());
 
-    final isAdmin = has('administration') || has('admin');
+    final isAdmin = has('administration:general');
+
+    // Kiểm tra từng quyền TCNL
+    final hasThongtinchung = isAdmin || has("6. KT:Thông tin quản trị:THONGTINCHUNG");
+    final hasDulieukythuat = isAdmin || has("6. KT:Thông tin quản trị:DULIEUKYTHUAT");
+    final hasPhantichchiphi = isAdmin || has("6. KT:Thông tin quản trị:PHANTICHCHIPHI");
+    final hasBaocaokythuat = isAdmin || has("6. KT:QT70");
 
     final list = <KtModuleItem>[
       KtModuleItem(
         "Thông tin chung",
-        "asset/icons/icon_kt_thongtinchung.svg",
-        enabled: true,
+        Icons.dashboard_outlined,
+        enabled: hasThongtinchung,
       ),
       KtModuleItem(
         "Dữ liệu kĩ thuật",
-        "asset/icons/icon_kt_dulieukythuat.svg",
-        enabled: true,
+        Icons.engineering_outlined,
+        enabled: hasDulieukythuat,
       ),
       KtModuleItem(
         "Phân tích chi phí",
-        "asset/icons/icon_kt_baocao.svg",
-        enabled: true,
+        Icons.bar_chart_outlined,
+        enabled: hasPhantichchiphi,
       ),
       KtModuleItem(
         "Báo cáo kỹ thuật",
-        "asset/icons/icon_kt_baocao.svg",
-        enabled: true,
+        Icons.fact_check_outlined,
+        enabled: hasBaocaokythuat,
       ),
     ];
 

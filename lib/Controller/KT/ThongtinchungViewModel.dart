@@ -75,7 +75,8 @@ class ThongtinchungViewModel extends GetxController {
     }
   }
 
-  // ====== Parse dữ liệu ======
+  //  Parse dữ liệu-Nhận JSON và tách dữ liệu
+  //obx GetX biến nó thành một dữ liệu có khả năng reactive.
   void applyData(Map<String, dynamic> data) {
     // 1. Biểu đồ giờ hoạt động xe tra nạp  
     final chartData = data['ChartGiohoatdongxetranapCard'] as List? ?? [];

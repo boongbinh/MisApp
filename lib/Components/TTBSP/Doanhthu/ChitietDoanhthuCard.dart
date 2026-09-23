@@ -31,7 +31,7 @@ class ChitietDoanhthuGrid extends StatelessWidget {
         crossAxisCount: 2,
         crossAxisSpacing: 12,
         mainAxisSpacing: 12,
-        childAspectRatio: 1.6,
+        mainAxisExtent: 200,
       ),
       itemCount: items.length,
       itemBuilder: (context, index) {
@@ -69,7 +69,8 @@ class ChitietDoanhthuGrid extends StatelessWidget {
                     child: Text(
                       item['title'],
                       style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: textColor),
-                      overflow: TextOverflow.ellipsis,
+                      // overflow: TextOverflow.ellipsis,
+                      softWrap: true,
                     ),
                   ),
                 ],
